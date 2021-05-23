@@ -22,9 +22,11 @@ define("TWITTER_ACCESS_TOKEN_SECRET", "fJ4tHT9K0rmjr61ZzoebbmwhLAcxIHTH2WAI5lI1L
 $connetion = new TwitterOAuth(TWITTER_API_KEY, TWITTER_API_SECRET_KEY, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET);
 
 // 日本語
-$tweet_ja = $title . "\n\n" . $date_string . "：" . $now_format . "\n" .$weater_string  . "：" . $weater . "\n" . $temp_string . "：" . $temp . "℃";
+$tweet_ja = $title . "\n\n" . $date_string . "：" . $now_format . "\n" . $weater_string  . "：" . $weater . "\n" . $temp_string . "：" . $temp . "℃";
 // つぶやく
-$connetion->post('statuses/update', ['status' => $tweet_ja]);
+// $connetion->post('statuses/update', ['status' => $tweet_ja]);
+
+echo $tweet_ja . "\n";
 
 // 英語に変換
 $title = $arry_encode_string[0];
@@ -35,8 +37,8 @@ $weater = $arry_encode_string[4];
 $now_format = $now->format("n/d/Y H:i:s");
 
 // // 英語 ※変数の上書きだとTwitterではじかれる
-$tweet_en =  $title . "\n\n" . $date_string . "：" . $now_format . "\n" .$weater_string  . "：" . $weater . "\n" . $temp_string . "：" . $temp . "℃";
+$tweet_en =  $title . "\n\n" . $date_string . "：" . $now_format . "\n" . $weater_string  . "：" . $weater . "\n" . $temp_string . "：" . $temp . "℃";
 // つぶやく
-$connetion->post('statuses/update', ['status' => $tweet_en]);
+// $connetion->post('statuses/update', ['status' => $tweet_en]);
 
-?>
+echo $tweet_en;
