@@ -10,7 +10,7 @@ class WeatherApi
 
 
     *///////////////////////////////////////////////////////
-    const API_KEY_OPEN_WEATHER_MAP = "055fce98ad1747aa2e4774f3bcca2ed9";
+    const API_KEY_OPEN_WEATHER_MAP = ""; // 適宜入力
     const BASE_URL_WEATHER = "http://api.openweathermap.org/data/2.5/weather?lang=ja&units=metric&q=";
 
     private $weather_all_data;

@@ -16,10 +16,10 @@ class TweetBot
 
 
     *///////////////////////////////////////////////////////
-    const TWITTER_API_KEY = "3spECaxPiSm9RyE4UH1aOY7t5";
-    const TWITTER_API_SECRET_KEY = "5OcKrBWCSfZVHUoKz78r852Tv96gYyOOW5iNP2PnZVDGY3Mn0I";
-    const TWITTER_ACCESS_TOKEN = "1393331878732521473-pgQ0RCOnB4regMP2y4HN5UyhjUASDL";
-    const TWITTER_ACCESS_TOKEN_SECRET ="fJ4tHT9K0rmjr61ZzoebbmwhLAcxIHTH2WAI5lI1LBmgS";
+    const TWITTER_API_KEY = ""; // 適宜入力
+    const TWITTER_API_SECRET_KEY = ""; // 適宜入力
+    const TWITTER_ACCESS_TOKEN = ""; // 適宜入力
+    const TWITTER_ACCESS_TOKEN_SECRET =""; // 適宜入力
 
 
 
