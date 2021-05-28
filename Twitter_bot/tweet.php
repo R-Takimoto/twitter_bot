@@ -16,10 +16,10 @@ class TweetBot
 
 
     *///////////////////////////////////////////////////////
-    const TWITTER_API_KEY = ""; // 適宜入力
-    const TWITTER_API_SECRET_KEY = ""; // 適宜入力
-    const TWITTER_ACCESS_TOKEN = ""; // 適宜入力
-    const TWITTER_ACCESS_TOKEN_SECRET =""; // 適宜入力
+    const TWITTER_API_KEY = "";
+    const TWITTER_API_SECRET_KEY = "";
+    const TWITTER_ACCESS_TOKEN = "";
+    const TWITTER_ACCESS_TOKEN_SECRET ="";
 
 
 
@@ -39,6 +39,7 @@ class TweetBot
         $twitter_OAuth = new TwitterOAuth(self::TWITTER_API_KEY, self::TWITTER_API_SECRET_KEY, self::TWITTER_ACCESS_TOKEN, self::TWITTER_ACCESS_TOKEN_SECRET);
 
         $twitter_OAuth->post('statuses/update', ['status' => $str]);
+        // echo $str;
     }
 }
 
@@ -94,27 +95,42 @@ class WeatherTweetBot extends TweetBot
         return $str;
     }
 
-
     // 天気用取得しツイートする(都市名、国名、翻訳有・無)
-    public static function WeatherTweet($city_name, $country, $translation = false) {
+    public static function nextDayTweet($city_name, $country) {
 
         $bot = new WeatherTweetBot($city_name, $country);
         
-        $weather_array = WeatherApi::requestWeatherNow($bot->city_name, $bot->country);
-        
-        $str = $bot->strFmt($weather_array);
-        
+        $api = "055fce98ad1747aa2e4774f3bcca2ed9";
+        // $url = "http://api.openweathermap.org/data/2.5/forecast?lang=ja&units=metric&q=";
+        $urls = "https://api.openweathermap.org/data/2.5/onecall?lang=ja&units=metric";
+        $la = "34.8151";
+        $lo = "134.6853";
+        $ex = array("current", "minutely", "hourly", "alerts");
+        $str = WeatherApi::nextDay($api, $urls, $la, $lo, $ex);
+
         $bot->tweet($str);
 
-        if($translation) {
-            $weather_array = TranslationApi::requestTranslation($weather_array);
+    }
 
-            $str = $bot->strFmt($weather_array);
+    public static function todayTweet($city_name, $country) {
+        $bot = new WeatherTweetBot($city_name, $country);
+        
+        $api = "";
+        $urls = "https://api.openweathermap.org/data/2.5/onecall?lang=ja&units=metric";
+        $la = "34.8151";
+        $lo = "134.6853";
+        $ex = array("current", "minutely", "hourly", "alerts");
 
-            $bot->tweet($str);
-        }
+        $str = WeatherApi::today($api, $urls, $la, $lo, $ex);
+
+        $bot->tweet($str);
+
     }
 }
 
 // トリガー（都市名, 国名, 翻訳）現状：日本語→英語のみ
-WeatherTweetBot::WeatherTweet("姫路", "jp", true);
+// WeatherTweetBot::WeatherTweet("姫路", "jp");
+
+
+// WeatherTweetBot::nextDayTweet("姫路", "jp"); // 翌日天気
+
