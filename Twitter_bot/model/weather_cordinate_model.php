@@ -1,23 +1,24 @@
 <?php
 
-require_once(__DIR__ . "/../model/weather_model.php");
+require_once(__DIR__ . "/weather_model.php");
 
 
 class WeatherCordinate extends Weather
 {
     /*//////////////////////////////////////////////////////
-    
+
 
       プロパティ
 
 
-    *///////////////////////////////////////////////////////
+    */ //////////////////////////////////////////////////////
     const EXCLUDE = array(
         "current" => "current,",
         "minutely" => "minutely,",
         "hourly" => "hourly,",
         "daily" => "daily,",
-        "alerts" => "alerts,");
+        "alerts" => "alerts,"
+    );
     const BASE_URL_WEATHER = "https://api.openweathermap.org/data/2.5/onecall?lang=ja&units=metric";
     private $lat;
     private $lon;
@@ -28,7 +29,7 @@ class WeatherCordinate extends Weather
       メソッド
 
 
-    *//////////////////////////////////////////////////////
+    */ /////////////////////////////////////////////////////
     // ゲッター・セッター
     public function getLat()
     {
@@ -87,10 +88,8 @@ class WeatherCordinate extends Weather
         $exclude = self::EXCLUDE;
         $excludes = "";
 
-        foreach ($exclude as $key => $val)
-        {
-            if($contents == $key)
-            {
+        foreach ($exclude as $key => $val) {
+            if ($contents == $key) {
                 continue;
             }
             $excludes .= $val;
@@ -98,10 +97,6 @@ class WeatherCordinate extends Weather
 
         $excludes = rtrim($excludes, ",");
 
-        return $excludes;      
+        return $excludes;
     }
-
-    
 }
-
-?>
