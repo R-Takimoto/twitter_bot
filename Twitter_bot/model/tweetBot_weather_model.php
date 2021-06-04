@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__ . "/tweetBot_model.php");
+
 class TweetBotWeather extends TweetBot
 {
     /*//////////////////////////////////////////////////////
@@ -9,7 +11,7 @@ class TweetBotWeather extends TweetBot
 
 
     */ //////////////////////////////////////////////////////
-    private $city_name;
+    private $url;
 
 
     /*//////////////////////////////////////////////////////
@@ -19,40 +21,31 @@ class TweetBotWeather extends TweetBot
 
 
     */ //////////////////////////////////////////////////////
-    // コンストラクタ
-    public function __construct()
+
+    // ゲッター
+    public function getUrl()
     {
+        return $this->url;
+    }
+
+    // セッター
+    public function setUrl($url)
+    {
+        $this->url = $url;
     }
 
 
     // 天気用取得しツイートする(都市名、国名、翻訳有・無)
-    // public static function nextDayTweet($city_name)
-    // {
+    public static function weatherTweet($api_key, $api_secret_key, $access_token, $access_token_secret, $text_tweet)
+    {
 
-    //     $bot = new TweetBotWeather();
+        $instans = new self();
 
-    //     $api = "";
-    //     $urls = "https://api.openweathermap.org/data/2.5/onecall?lang=ja&units=metric";
-    //     $la = "34.8151";
-    //     $lo = "134.6853";
-    //     $ex = array("current", "minutely", "hourly", "alerts");
-    //     $str = WeatherApi::nextDay($api, $urls, $la, $lo, $ex);
+        $instans->setApiKey($api_key);
+        $instans->setApiSecretkey($api_secret_key);
+        $instans->setAccessToken($access_token);
+        $instans->setAccessTokenSecret($access_token_secret);
 
-    //     $bot->tweet($str);
-    // }
-
-    // public static function todayTweet($city_name, $country)
-    // {
-    //     $bot = new WeatherTweetBot($city_name, $country);
-
-    //     $api = "";
-    //     $urls = "https://api.openweathermap.org/data/2.5/onecall?lang=ja&units=metric";
-    //     $la = "34.8151";
-    //     $lo = "134.6853";
-    //     $ex = array("current", "minutely", "hourly", "alerts");
-
-    //     $str = WeatherApi::today($api, $urls, $la, $lo, $ex);
-
-    //     $bot->tweet($str);
-    // }
+        $instans->tweet($text_tweet);
+    }
 }

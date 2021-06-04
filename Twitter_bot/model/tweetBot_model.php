@@ -27,9 +27,13 @@ class TweetBot
 
     */ //////////////////////////////////////////////////////
 
-    public function __construct()
-    {
-    }
+    // public function __construct($api_key, $api_secret_key, $access_token, $access_token_secret)
+    // {
+    //     $this->api_key = $api_key;
+    //     $this->api_secret_key = $api_secret_key;
+    //     $this->access_token = $access_token;
+    //     $this->access_token_secret = $access_token_secret;
+    // }
 
     public function getApiKey()
     {
@@ -68,15 +72,14 @@ class TweetBot
 
     public function setAccessTokenSecret($access_token_secret)
     {
-        $this->access_token_secret;
+        $this->access_token_secret = $access_token_secret;
     }
 
-    protected function tweet($str)
+    public function tweet($text)
     {
 
-        // $twitter_OAuth = new TwitterOAuth($this->api_key, $this->api_secret_key, $this->access_token, $this->access_token_secret);
+        $twitter_OAuth = new TwitterOAuth($this->api_key, $this->api_secret_key, $this->access_token, $this->access_token_secret);
 
-        // $twitter_OAuth->post('statuses/update', ['status' => $str]);
-        echo $str;
+        $twitter_OAuth->post('statuses/update', ['status' => $text]);
     }
 }
