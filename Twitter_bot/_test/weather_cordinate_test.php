@@ -8,7 +8,7 @@ require_once(__DIR__ . "/../model/tweetBot_model.php");
 require_once(__DIR__ . "/../model/uv_images_model.php");
 
 
-$api = "055fce98ad1747aa2e4774f3bcca2ed9";
+$api = "";
 $la = "34.8151";
 $lo = "134.6853";
 $city_name = "姫路市";
@@ -37,10 +37,3 @@ if($time < 17) { // 16:59までなら当日の紫外線予報
 }
 
 echo $text;
-
-
-// $api_key_twitter = "3spECaxPiSm9RyE4UH1aOY7t5";
-// $api_secret_key = "5OcKrBWCSfZVHUoKz78r852Tv96gYyOOW5iNP2PnZVDGY3Mn0I";
-// $access_token = "1393331878732521473-pgQ0RCOnB4regMP2y4HN5UyhjUASDL";
-// $access_token_secret = "fJ4tHT9K0rmjr61ZzoebbmwhLAcxIHTH2WAI5lI1LBmgS";
-// TweetBotWeather::weatherTweet($api_key_twitter, $api_secret_key, $access_token, $access_token_secret, $text, $time);
