@@ -6,7 +6,7 @@ require_once(__DIR__ . "/../model/weather_format_model.php");
 require_once(__DIR__ . "/../model/tweetBot_weather_model.php");
 
 
-$api = "";
+$api = "055fce98ad1747aa2e4774f3bcca2ed9";
 $la = "34.8151";
 $lo = "134.6853";
 $city_name = "姫路市";

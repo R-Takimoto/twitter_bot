@@ -16,26 +16,8 @@ class WeatherFormat
     private $title_template_ = "の天気予報\n\n";
     private $title_uv_template_ = "の紫外線予報\n\n";
 
-    // private $weather_template_ = "天気　　： ";
-    // private $temp_min_template_ = "最低気温： ";
-    // private $temp_max_template_ = "最高気温： ";
-    // private $temp_template_ = "気温　　： ";
-    // private $humidity_template_ = "湿度　　： ";
-    // private $clouds_template_ = "雲量　　： ";
-    // private $pop_template_ = "降水確率： ";
-    // private $uvi_template_ = "紫外線　： ";
-
-    private $weather_template_;
-    private $temp_min_template_;
-    private $temp_max_template_;
-    private $temp_template_;
-    private $humidity_template_; 
-    private $clouds_template_;
-    private $pop_template_;
-    private $uvi_template_;
-
-
     private $template_texts_ = array(
+        "hourly_title" => "◆ ,\n",
         "weather" => "天気　　： ,\n",
         "temp" => "気温　　： ,℃\n",
         "temp_min" => "最低気温： ,℃\n",
@@ -65,7 +47,6 @@ class WeatherFormat
         $instans = new self($city_name);
         $weather_array_day = $weather_array[$day];
 
-
         /*
         
           見出し処理
@@ -76,7 +57,11 @@ class WeatherFormat
         $header = $instans->createTweetHeader($time_stamp, $title);
         
 
-        // ツイートする項目を取得
+        /*
+        
+          ツイートする項目を取得
+        
+        */
         $weather = $weather_array_day["weather"][0]["description"];
         $temp_min = $weather_array_day["temp"]["min"];
         $temp_max = $weather_array_day["temp"]["max"];
@@ -89,15 +74,9 @@ class WeatherFormat
         $temp_max = round($temp_max, 0);
         $pop = $pop * 100;
         $uvi = round($uvi, 0);
-        $complement = $instans->findUviComplement($uvi);
-        // $instans->weather_template_ .= $weather . "\n";
-        // $instans->temp_min_template_ .= $temp_min . "℃\n";
-        // $instans->temp_max_template_ .= $temp_max . "℃\n";
-        // $instans->humidity_template_ .= $humidity . "％\n";
-        // $instans->clouds_template_ .= $clouds . "％\n";
-        // $instans->pop_template_ .= $pop . "％\n";
-        // $instans->uvi_template_ .= $uvi . $complement . "\n";
-
+        if($uvi == 0) {
+            $uvi = 1;
+        }
 
         $texts = array(
             "weather" => $weather,
@@ -109,17 +88,10 @@ class WeatherFormat
             "uvi" => $uvi,
         );
 
-        $format_texts = $instans->createTexts($texts);
+        $instans->createTexts($texts);
+        $tag = "\n#姫路 #天気";
 
-
-
-        $tag = "#姫路 #天気";
-
-        // $instans->tweet_text_ = $header . $instans->weather_template_ . $instans->temp_min_template_ . $instans->temp_max_template_ . $instans->humidity_template_ . $instans->clouds_template_ . $instans->pop_template_ . $instans->uvi_template_ .  $tag;
-
-        
-
-        $text_tweet = $instans->tweet_text_;
+        $text_tweet = $header . $instans->tweet_text_ . $tag;
         return $text_tweet;
     }
 
@@ -142,14 +114,12 @@ class WeatherFormat
           時間毎の文字列を作る
         
         */
-        for ($start_hourly; $start_hourly < $last_hourly; $start_hourly++) { 
+        for ($start_hourly; $start_hourly <= $last_hourly; $start_hourly++) { 
 
             $weather_array_hourly = $weather_array[$start_hourly];
 
-
             $time_stamp = $weather_array_hourly['dt'];
-            $hourly_text = date('H時', $time_stamp);
-
+            $hourly_title = date('H時', $time_stamp);
 
             // 文字列処理
             $temp = $weather_array_hourly['temp'];
@@ -162,27 +132,21 @@ class WeatherFormat
                 $uvi = 1;
             }
 
-            $complement = $instans->findUviComplement($uvi);
-    
+            $texts = array(
+                "hourly_title" => $hourly_title,
+                "temp" => $temp,
+                "clouds" => $clouds,
+                "uvi" => $uvi,
+            );
 
+            $instans->createTexts($texts);
 
-
-            $hourly_title = "◆ " . $hourly_text . "\n";
-            $temp = $instans->temp_template_ . $temp . "℃\n";
-            $clouds = $instans->clouds_template_ . $clouds . "％\n";
-            $uvi = $instans->uvi_template_ . $uvi . $complement . "\n";
-    
-            $instans->tweet_text_ .= $hourly_title . $temp . $clouds . $uvi;
-            if($start_hourly != $last_hourly - 1) {
+            if($start_hourly != $last_hourly) {
                 $instans->tweet_text_ .= "\n";
             }
-    
         }
 
-        $instans->tweet_text_ = $header . $instans->tweet_text_;
-        $text_tweet = $instans->tweet_text_;
-
-        
+        $text_tweet = $header . $instans->tweet_text_;
         return $text_tweet;
     }
 
@@ -265,17 +229,16 @@ class WeatherFormat
         $template = $this->template_texts_;
         
         foreach ($texts as $key => $val) {
-            $split = preg_split("/[,]/", $template[$key]);
+            $template_split = preg_split("/[,]/", $template[$key]);
             
             if($key == "uvi") {
                 $complement = self::findUviComplement($val);
-                $texts[$key] = $split[0] . $val . $complement . $split[1];
+                $this->tweet_text_ .= $template_split[0] . $val . $complement . $template_split[1];
                 continue;
             }
-            $this->str .= $split[0] . $val . $split[1];
+            $this->tweet_text_ .= $template_split[0] . $val . $template_split[1];
         }
 
-        return $texts;
     }
 
 
